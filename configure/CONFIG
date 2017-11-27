@@ -5,10 +5,10 @@ EPICS_MODULE_NAME:=sscan
 # *) master branch 
 #    export EPICS_MODULE_TAG:=master
 # *) individual hash 
-export EPICS_MODULE_TAG:=master
+export EPICS_MODULE_TAG:=tags/R2-10-2
 export EPICS_MODULE_SRC_PATH:=$(EPICS_MODULE_NAME)
 ESS_MODULE_MAKEFILE:=$(EPICS_MODULE_NAME).Makefile
 export PROJECT:=$(EPICS_MODULE_NAME)
-export LIBVERSION:=0.0.1
+export LIBVERSION:=2.10.2
 export E3_ENV_NAME:=e3-env
-#export USR_DEPENDENCIES += xxx,1.1.1
+export USR_DEPENDENCIES += seq,2.1.21

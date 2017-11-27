@@ -1,0 +1,140 @@
+EPICS
+
+Preprocessing ../scanProg.st
+
+/usr/bin/gcc -x c -E  -D_GNU_SOURCE -D_DEFAULT_SOURCE            -D_X86_64_  -DUNIX  -Dlinux   -I. -I../O.Common -I. -I. -I.. -I/epics/bases/base-3.15.5/epics-modules/sscan/include/compiler/gcc -I/epics/bases/base-3.15.5/epics-modules/sscan/include/os/Linux -I/epics/bases/base-3.15.5/epics-modules/sscan/include   -I/epics/bases/base-3.15.5/epics-modules/seq/include -I/epics/bases/base-3.15.5/include/compiler/gcc -I/epics/bases/base-3.15.5/include/os/Linux -I/epics/bases/base-3.15.5/include        ../scanProg.st > scanProg.i
+
+
+compiling scanProg.i to C
+/epics/bases/base-3.15.5/epics-modules/seq/bin/linux-x86_64/snc     scanProg.i -o scanProg.c.tmp
+
+
+mv scanProg.c.tmp scanProg.c
+
+/usr/bin/gcc  -D_GNU_SOURCE -D_DEFAULT_SOURCE            -D_X86_64_  -DUNIX  -Dlinux     -O3 -g   -Wall      -mtune=generic     -m64 -fPIC -I. -I../O.Common -I. -I. -I.. -I/epics/bases/base-3.15.5/epics-modules/sscan/include/compiler/gcc -I/epics/bases/base-3.15.5/epics-modules/sscan/include/os/Linux -I/epics/bases/base-3.15.5/epics-modules/sscan/include   -I/epics/bases/base-3.15.5/epics-modules/seq/include -I/epics/bases/base-3.15.5/include/compiler/gcc -I/epics/bases/base-3.15.5/include/os/Linux -I/epics/bases/base-3.15.5/include        -MM -MF scanProg.d  scanProg.c
+
+
+perl -CSD /epics/bases/base-3.15.5/bin/linux-x86_64/mkmf.pl -m scanProg.st.d  .  ../compiler/gcc ../compiler/default .  ../os/Linux ../os/posix ../os/default ..  scanProg.i ../scanProg.st
+
+
+/usr/bin/gcc  -D_GNU_SOURCE -D_DEFAULT_SOURCE            -D_X86_64_  -DUNIX  -Dlinux     -O3 -g   -Wall      -mtune=generic     -m64 -fPIC -I. -I../O.Common -I. -I. -I.. -I/epics/bases/base-3.15.5/epics-modules/sscan/include/compiler/gcc -I/epics/bases/base-3.15.5/epics-modules/sscan/include/os/Linux -I/epics/bases/base-3.15.5/epics-modules/sscan/include   -I/epics/bases/base-3.15.5/epics-modules/seq/include -I/epics/bases/base-3.15.5/include/compiler/gcc -I/epics/bases/base-3.15.5/include/os/Linux -I/epics/bases/base-3.15.5/include        -c scanProg.c
+
+
+
+
+
+
+driver.Makefile
+
+
+Preprocessing scanProg.st
+rm -f scanProg.i
+
+/usr/bin/gcc -x c -E  -D_GNU_SOURCE -D_DEFAULT_SOURCE -Wno-unused-variable -Wno-unused-function -Wno-unused-but-set-variable -D_X86_64_ -DUNIX -Dlinux -MD  -I /epics/modules/seq/2.1.21/R3.15.5/bin/linux-x86_64/../../include ../sscanApp/src/scanProg.st > scanProg.i
+
+Converting scanProg.i
+
+rm -f scanProg_snl.dbd
+
+/epics/modules/seq/2.1.21/R3.15.5/bin/linux-x86_64/snc  -r scanProg.i
+
+Compiling scanProg.c
+rm -f scanProg_snl.dbd
+/usr/bin/gcc  -D_GNU_SOURCE -D_DEFAULT_SOURCE                        -Wno-unused-variable -Wno-unused-function -Wno-unused-but-set-variable   -D_X86_64_  -DUNIX  -Dlinux                 -MD   -O3 -g   -Wall                   -Wno-unused-variable -Wno-unused-function -Wno-unused-but-set-variable  -mtune=generic     -m64 -fPIC                -I. -I../sscanApp/src/ -I../ -I../O.3.15.5_Common/  -I/epics/modules/asyn/4.32.0/R3.15.5/include  -I/epics/modules/devlib2/2.9.0/R3.15.5/include  -I/epics/modules/require/0.0.1/R3.15.5/include  -I/epics/modules/mrfioc2/2.2.0/R3.15.5/include    -I/epics/modules/modbus/2.10.1/R3.15.5/include    -I/epics/modules/sequencer/2.1.21/R3.15.5/include  -I/epics/modules/autosave/5.8.0/R3.15.5/include    -I/epics/modules/seq/2.1.21/R3.15.5/include   -I/epics/bases/base-3.15.5/include  -I/epics/bases/base-3.15.5/include/compiler/gcc -I/epics/bases/base-3.15.5/include/os/Linux                   -I/home/jhlee/e3/tools/e3-sscan/sscan//sscanApp/src                   scanProg.c
+gcc: error: scanProg.c: No such file or directory
+
+
+
+
+module.Makefile
+
+
+
+
+
+# Create SNL code from st/stt file
+# (RULES.Vx only allows ../%.st, 3.14 has no .st rules at all)
+# Important to have %.o: %.st and %.o: %.stt rule before %.o: %.c rule!
+# Preprocess in any case because documentation and EPICS makefiles mismatch here
+
+CPPSNCFLAGS1  = $(filter -D%, ${OP_SYS_CFLAGS})
+CPPSNCFLAGS1 += $(filter-out ${OP_SYS_INCLUDE_CPPFLAGS} ,${CPPFLAGS}) ${CPPSNCFLAGS} ${SNC_CFLAGS}
+SNCFLAGS     += -r -o $(*F)_snl.c
+
+# Disable deleting the C sources
+.PRECIOUS: %_snl.c
+
+%_snl.i: %.stt
+	${QUIET}echo "Preprocessing $< into $(*F)_snl.i"
+	$(RM) $(*F)_snl.i
+	$(CPP) ${CPPSNCFLAGS1} $< > $(*F)_snl.i
+
+%_snl.i: %.st
+	${QUIET}echo "Preprocessing $< into $(*F)_snl.i"
+	$(RM) $(*F)_snl.i
+	$(CPP) ${CPPSNCFLAGS1} $< > $(*F)_snl.i
+
+%_snl.c: %_snl.i
+	${QUIET}echo "Transpiling $< into $(*F)_snl.c"
+	$(RM) $(*F)_snl.c
+	$(SNC) $(TARGET_SNCFLAGS) $(SNCFLAGS) $<
+
+%_snl$(OBJ): %_snl.c
+	${QUIET}echo "Compiling $(*F)_snl.c"
+ifeq (${EPICSVERSION},3.14)
+	$(COMPILE.c) ${SNC_CFLAGS} $(*F)_snl.c
+else
+	$(COMPILE.c) -c ${SNC_CFLAGS} $(*F)_snl.c
+endif
+
+%_snl.dbd: %_snl.c
+	${QUIET}echo "Generating $@"
+	$(RM) $(@)
+	${QUIET}awk '{if(match ($$0,/^[\t ]*epicsExportRegistrar\([\t ]*(\w+)[\t ]*\)/, a)){ print "registrar (" a[1] ")"}}' $< > $@
+	
+	
+	
+	
+driver.Makefile
+	
+	
+# Create SNL code from st/stt file.
+# (RULES.Vx only allows ../%.st, 3.14 has no .st rules at all.)
+# Important to have %.o: %.st and %.o: %.stt rule before %.o: %.c rule!
+# Preprocess in any case because docu and implemented EPICS rules mismatch here.
+
+CPPSNCFLAGS1  = $(filter -D%, ${OP_SYS_CFLAGS})
+CPPSNCFLAGS1 += $(filter-out ${OP_SYS_INCLUDE_CPPFLAGS} ,${CPPFLAGS}) ${CPPSNCFLAGS}
+CPPSNCFLAGS1 += -I $(dir $(SNC))../../include
+SNCFLAGS += -r
+
+%$(OBJ) %_snl.dbd: %.st
+	@echo "Preprocessing $(<F)"
+	$(RM) $(*F).i
+	$(CPP) ${CPPSNCFLAGS1} $< > $(*F).i
+	@echo "Converting $(*F).i"
+	$(RM) $@
+	$(SNC) $(TARGET_SNCFLAGS) $(SNCFLAGS) $(*F).i
+	@echo "Compiling $(*F).c"
+	$(RM) $@
+	$(COMPILE.c) ${SNC_CFLAGS} $(*F).c
+ifneq (${EPICS_BASETYPE},3.13)
+	@echo "Building $(*F)_snl.dbd"
+	awk -F [\(\)]  '/epicsExportRegistrar/ { print "registrar (" $$2 ")"}' $(*F).c > $(*F)_snl.dbd
+endif
+
+%$(OBJ) %_snl.dbd: %.stt
+	@echo "Preprocessing $(<F)"
+	$(RM) $(*F).i
+	$(CPP) ${CPPSNCFLAGS1} $< > $(*F).i
+	@echo "Converting $(*F).i"
+	$(RM) $@
+	$(SNC) $(TARGET_SNCFLAGS) $(SNCFLAGS) $(*F).i
+	@echo "Compiling $(*F).c"
+	$(RM) $@
+	$(COMPILE.c) ${SNC_CFLAGS} $(*F).c
+ifneq (${EPICS_BASETYPE},3.13)
+	@echo "Building $(*F)_snl.dbd"
+	awk -F [\(\)]  '/epicsExportRegistrar/ { print "registrar(" $$2 ")"}' $(*F).c > $(*F)_snl.dbd
+endif
+

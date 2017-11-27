@@ -1,0 +1,74 @@
+sudo -E bash -c "make -C sscan"
+make[1]: Entering directory '/home/jhlee/e3/tools/e3-sscan/sscan'
+make -C ./configure install 
+make[2]: Entering directory '/home/jhlee/e3/tools/e3-sscan/sscan/configure'
+perl -CSD /epics/bases/base-3.15.5/bin/linux-x86_64/makeMakefile.pl O.linux-x86_64 ../..
+mkdir O.Common
+make -C O.linux-x86_64 -f ../Makefile TOP=../.. \
+    T_A=linux-x86_64 install
+make[3]: Entering directory '/home/jhlee/e3/tools/e3-sscan/sscan/configure/O.linux-x86_64'
+Installing config file /epics/bases/base-3.15.5/epics-modules/sscan/configure/RELEASE
+make[3]: Leaving directory '/home/jhlee/e3/tools/e3-sscan/sscan/configure/O.linux-x86_64'
+make[2]: Leaving directory '/home/jhlee/e3/tools/e3-sscan/sscan/configure'
+make -C ./sscanApp install 
+make[2]: Entering directory '/home/jhlee/e3/tools/e3-sscan/sscan/sscanApp'
+make -C ./src install 
+make[3]: Entering directory '/home/jhlee/e3/tools/e3-sscan/sscan/sscanApp/src'
+perl -CSD /epics/bases/base-3.15.5/bin/linux-x86_64/makeMakefile.pl O.linux-x86_64 ../../..
+mkdir O.Common
+make -C O.linux-x86_64 -f ../Makefile TOP=../../.. \
+    T_A=linux-x86_64 install
+make[4]: Entering directory '/home/jhlee/e3/tools/e3-sscan/sscan/sscanApp/src/O.linux-x86_64'
+perl -CSD /epics/bases/base-3.15.5/bin/linux-x86_64/dbdToRecordtypeH.pl   -I. -I.. -I../O.Common -I/epics/bases/base-3.15.5/epics-modules/sscan/dbd -I/epics/bases/base-3.15.5/epics-modules/seq/dbd -I/epics/bases/base-3.15.5/dbd -o scanparmRecord.h ../scanparmRecord.dbd
+perl -CSD /epics/bases/base-3.15.5/bin/linux-x86_64/dbdToRecordtypeH.pl   -I. -I.. -I../O.Common -I/epics/bases/base-3.15.5/epics-modules/sscan/dbd -I/epics/bases/base-3.15.5/epics-modules/seq/dbd -I/epics/bases/base-3.15.5/dbd -o sscanRecord.h ../sscanRecord.dbd
+perl -CSD /epics/bases/base-3.15.5/bin/linux-x86_64/dbdToMenuH.pl   -I. -I.. -I../O.Common -I/epics/bases/base-3.15.5/epics-modules/sscan/dbd -I/epics/bases/base-3.15.5/epics-modules/seq/dbd -I/epics/bases/base-3.15.5/dbd -o menuSscan.h ../menuSscan.dbd
+preprocessing ../scanProg.st
+/usr/bin/gcc -x c -E  -D_GNU_SOURCE -D_DEFAULT_SOURCE            -D_X86_64_  -DUNIX  -Dlinux   -I. -I../O.Common -I. -I. -I.. -I/epics/bases/base-3.15.5/epics-modules/sscan/include/compiler/gcc -I/epics/bases/base-3.15.5/epics-modules/sscan/include/os/Linux -I/epics/bases/base-3.15.5/epics-modules/sscan/include   -I/epics/bases/base-3.15.5/epics-modules/seq/include -I/epics/bases/base-3.15.5/include/compiler/gcc -I/epics/bases/base-3.15.5/include/os/Linux -I/epics/bases/base-3.15.5/include        ../scanProg.st > scanProg.i
+compiling scanProg.i to C
+/epics/bases/base-3.15.5/epics-modules/seq/bin/linux-x86_64/snc     scanProg.i -o scanProg.c.tmp
+mv scanProg.c.tmp scanProg.c
+/usr/bin/gcc  -D_GNU_SOURCE -D_DEFAULT_SOURCE            -D_X86_64_  -DUNIX  -Dlinux     -O3 -g   -Wall      -mtune=generic     -m64 -fPIC -I. -I../O.Common -I. -I. -I.. -I/epics/bases/base-3.15.5/epics-modules/sscan/include/compiler/gcc -I/epics/bases/base-3.15.5/epics-modules/sscan/include/os/Linux -I/epics/bases/base-3.15.5/epics-modules/sscan/include   -I/epics/bases/base-3.15.5/epics-modules/seq/include -I/epics/bases/base-3.15.5/include/compiler/gcc -I/epics/bases/base-3.15.5/include/os/Linux -I/epics/bases/base-3.15.5/include        -MM -MF scanProg.d  scanProg.c
+/usr/bin/gcc  -D_GNU_SOURCE -D_DEFAULT_SOURCE            -D_X86_64_  -DUNIX  -Dlinux     -O3 -g   -Wall      -mtune=generic     -m64 -fPIC -I. -I../O.Common -I. -I. -I.. -I/epics/bases/base-3.15.5/epics-modules/sscan/include/compiler/gcc -I/epics/bases/base-3.15.5/epics-modules/sscan/include/os/Linux -I/epics/bases/base-3.15.5/epics-modules/sscan/include   -I/epics/bases/base-3.15.5/epics-modules/seq/include -I/epics/bases/base-3.15.5/include/compiler/gcc -I/epics/bases/base-3.15.5/include/os/Linux -I/epics/bases/base-3.15.5/include        -MM -MF saveData.d  ../saveData.c
+/usr/bin/gcc  -D_GNU_SOURCE -D_DEFAULT_SOURCE            -D_X86_64_  -DUNIX  -Dlinux     -O3 -g   -Wall      -mtune=generic     -m64 -fPIC -I. -I../O.Common -I. -I. -I.. -I/epics/bases/base-3.15.5/epics-modules/sscan/include/compiler/gcc -I/epics/bases/base-3.15.5/epics-modules/sscan/include/os/Linux -I/epics/bases/base-3.15.5/epics-modules/sscan/include   -I/epics/bases/base-3.15.5/epics-modules/seq/include -I/epics/bases/base-3.15.5/include/compiler/gcc -I/epics/bases/base-3.15.5/include/os/Linux -I/epics/bases/base-3.15.5/include        -MM -MF xdr_lib.d  ../xdr_lib.c
+/usr/bin/gcc  -D_GNU_SOURCE -D_DEFAULT_SOURCE            -D_X86_64_  -DUNIX  -Dlinux     -O3 -g   -Wall      -mtune=generic     -m64 -fPIC -I. -I../O.Common -I. -I. -I.. -I/epics/bases/base-3.15.5/epics-modules/sscan/include/compiler/gcc -I/epics/bases/base-3.15.5/epics-modules/sscan/include/os/Linux -I/epics/bases/base-3.15.5/epics-modules/sscan/include   -I/epics/bases/base-3.15.5/epics-modules/seq/include -I/epics/bases/base-3.15.5/include/compiler/gcc -I/epics/bases/base-3.15.5/include/os/Linux -I/epics/bases/base-3.15.5/include        -MM -MF req_file.d  ../req_file.c
+/usr/bin/gcc  -D_GNU_SOURCE -D_DEFAULT_SOURCE            -D_X86_64_  -DUNIX  -Dlinux     -O3 -g   -Wall      -mtune=generic     -m64 -fPIC -I. -I../O.Common -I. -I. -I.. -I/epics/bases/base-3.15.5/epics-modules/sscan/include/compiler/gcc -I/epics/bases/base-3.15.5/epics-modules/sscan/include/os/Linux -I/epics/bases/base-3.15.5/epics-modules/sscan/include   -I/epics/bases/base-3.15.5/epics-modules/seq/include -I/epics/bases/base-3.15.5/include/compiler/gcc -I/epics/bases/base-3.15.5/include/os/Linux -I/epics/bases/base-3.15.5/include        -MM -MF recDynLink.d  ../recDynLink.c
+/usr/bin/gcc  -D_GNU_SOURCE -D_DEFAULT_SOURCE            -D_X86_64_  -DUNIX  -Dlinux     -O3 -g   -Wall      -mtune=generic     -m64 -fPIC -I. -I../O.Common -I. -I. -I.. -I/epics/bases/base-3.15.5/epics-modules/sscan/include/compiler/gcc -I/epics/bases/base-3.15.5/epics-modules/sscan/include/os/Linux -I/epics/bases/base-3.15.5/epics-modules/sscan/include   -I/epics/bases/base-3.15.5/epics-modules/seq/include -I/epics/bases/base-3.15.5/include/compiler/gcc -I/epics/bases/base-3.15.5/include/os/Linux -I/epics/bases/base-3.15.5/include        -MM -MF scanparmRecord.d  ../scanparmRecord.c
+/usr/bin/gcc  -D_GNU_SOURCE -D_DEFAULT_SOURCE            -D_X86_64_  -DUNIX  -Dlinux     -O3 -g   -Wall      -mtune=generic     -m64 -fPIC -I. -I../O.Common -I. -I. -I.. -I/epics/bases/base-3.15.5/epics-modules/sscan/include/compiler/gcc -I/epics/bases/base-3.15.5/epics-modules/sscan/include/os/Linux -I/epics/bases/base-3.15.5/epics-modules/sscan/include   -I/epics/bases/base-3.15.5/epics-modules/seq/include -I/epics/bases/base-3.15.5/include/compiler/gcc -I/epics/bases/base-3.15.5/include/os/Linux -I/epics/bases/base-3.15.5/include        -MM -MF sscanRecord.d  ../sscanRecord.c
+perl -CSD /epics/bases/base-3.15.5/bin/linux-x86_64/mkmf.pl -m scanProg.st.d  .  ../compiler/gcc ../compiler/default .  ../os/Linux ../os/posix ../os/default ..  scanProg.i ../scanProg.st
+Expanding dbd file ../sscanInclude.dbd
+perl -CSD /epics/bases/base-3.15.5/bin/linux-x86_64/dbdExpand.pl   -I. -I.. -I../O.Common -I/epics/bases/base-3.15.5/epics-modules/sscan/dbd -I/epics/bases/base-3.15.5/epics-modules/seq/dbd -I/epics/bases/base-3.15.5/dbd -o sscan.dbd ../sscanInclude.dbd
+Installing created dbd file /epics/bases/base-3.15.5/epics-modules/sscan/dbd/sscan.dbd
+Installing generated generic include file /epics/bases/base-3.15.5/epics-modules/sscan/include/scanparmRecord.h
+Installing generated generic include file /epics/bases/base-3.15.5/epics-modules/sscan/include/sscanRecord.h
+Installing generated generic include file /epics/bases/base-3.15.5/epics-modules/sscan/include/menuSscan.h
+/usr/bin/gcc  -D_GNU_SOURCE -D_DEFAULT_SOURCE            -D_X86_64_  -DUNIX  -Dlinux     -O3 -g   -Wall      -mtune=generic     -m64 -fPIC -I. -I../O.Common -I. -I. -I.. -I/epics/bases/base-3.15.5/epics-modules/sscan/include/compiler/gcc -I/epics/bases/base-3.15.5/epics-modules/sscan/include/os/Linux -I/epics/bases/base-3.15.5/epics-modules/sscan/include   -I/epics/bases/base-3.15.5/epics-modules/seq/include -I/epics/bases/base-3.15.5/include/compiler/gcc -I/epics/bases/base-3.15.5/include/os/Linux -I/epics/bases/base-3.15.5/include        -c ../sscanRecord.c
+/usr/bin/gcc  -D_GNU_SOURCE -D_DEFAULT_SOURCE            -D_X86_64_  -DUNIX  -Dlinux     -O3 -g   -Wall      -mtune=generic     -m64 -fPIC -I. -I../O.Common -I. -I. -I.. -I/epics/bases/base-3.15.5/epics-modules/sscan/include/compiler/gcc -I/epics/bases/base-3.15.5/epics-modules/sscan/include/os/Linux -I/epics/bases/base-3.15.5/epics-modules/sscan/include   -I/epics/bases/base-3.15.5/epics-modules/seq/include -I/epics/bases/base-3.15.5/include/compiler/gcc -I/epics/bases/base-3.15.5/include/os/Linux -I/epics/bases/base-3.15.5/include        -c ../scanparmRecord.c
+/usr/bin/gcc  -D_GNU_SOURCE -D_DEFAULT_SOURCE            -D_X86_64_  -DUNIX  -Dlinux     -O3 -g   -Wall      -mtune=generic     -m64 -fPIC -I. -I../O.Common -I. -I. -I.. -I/epics/bases/base-3.15.5/epics-modules/sscan/include/compiler/gcc -I/epics/bases/base-3.15.5/epics-modules/sscan/include/os/Linux -I/epics/bases/base-3.15.5/epics-modules/sscan/include   -I/epics/bases/base-3.15.5/epics-modules/seq/include -I/epics/bases/base-3.15.5/include/compiler/gcc -I/epics/bases/base-3.15.5/include/os/Linux -I/epics/bases/base-3.15.5/include        -c ../recDynLink.c
+/usr/bin/gcc  -D_GNU_SOURCE -D_DEFAULT_SOURCE            -D_X86_64_  -DUNIX  -Dlinux     -O3 -g   -Wall      -mtune=generic     -m64 -fPIC -I. -I../O.Common -I. -I. -I.. -I/epics/bases/base-3.15.5/epics-modules/sscan/include/compiler/gcc -I/epics/bases/base-3.15.5/epics-modules/sscan/include/os/Linux -I/epics/bases/base-3.15.5/epics-modules/sscan/include   -I/epics/bases/base-3.15.5/epics-modules/seq/include -I/epics/bases/base-3.15.5/include/compiler/gcc -I/epics/bases/base-3.15.5/include/os/Linux -I/epics/bases/base-3.15.5/include        -c ../req_file.c
+/usr/bin/gcc  -D_GNU_SOURCE -D_DEFAULT_SOURCE            -D_X86_64_  -DUNIX  -Dlinux     -O3 -g   -Wall      -mtune=generic     -m64 -fPIC -I. -I../O.Common -I. -I. -I.. -I/epics/bases/base-3.15.5/epics-modules/sscan/include/compiler/gcc -I/epics/bases/base-3.15.5/epics-modules/sscan/include/os/Linux -I/epics/bases/base-3.15.5/epics-modules/sscan/include   -I/epics/bases/base-3.15.5/epics-modules/seq/include -I/epics/bases/base-3.15.5/include/compiler/gcc -I/epics/bases/base-3.15.5/include/os/Linux -I/epics/bases/base-3.15.5/include        -c ../xdr_lib.c
+/usr/bin/gcc  -D_GNU_SOURCE -D_DEFAULT_SOURCE            -D_X86_64_  -DUNIX  -Dlinux     -O3 -g   -Wall      -mtune=generic     -m64 -fPIC -I. -I../O.Common -I. -I. -I.. -I/epics/bases/base-3.15.5/epics-modules/sscan/include/compiler/gcc -I/epics/bases/base-3.15.5/epics-modules/sscan/include/os/Linux -I/epics/bases/base-3.15.5/epics-modules/sscan/include   -I/epics/bases/base-3.15.5/epics-modules/seq/include -I/epics/bases/base-3.15.5/include/compiler/gcc -I/epics/bases/base-3.15.5/include/os/Linux -I/epics/bases/base-3.15.5/include        -c ../saveData.c
+/usr/bin/ar -rc    libsscan.a        sscanRecord.o scanparmRecord.o recDynLink.o req_file.o xdr_lib.o saveData.o 
+/usr/bin/ranlib libsscan.a
+/usr/bin/gcc  -D_GNU_SOURCE -D_DEFAULT_SOURCE            -D_X86_64_  -DUNIX  -Dlinux     -O3 -g   -Wall      -mtune=generic     -m64 -fPIC -I. -I../O.Common -I. -I. -I.. -I/epics/bases/base-3.15.5/epics-modules/sscan/include/compiler/gcc -I/epics/bases/base-3.15.5/epics-modules/sscan/include/os/Linux -I/epics/bases/base-3.15.5/epics-modules/sscan/include   -I/epics/bases/base-3.15.5/epics-modules/seq/include -I/epics/bases/base-3.15.5/include/compiler/gcc -I/epics/bases/base-3.15.5/include/os/Linux -I/epics/bases/base-3.15.5/include        -c scanProg.c
+/usr/bin/ar -rc    libscanProgress.a        scanProg.o 
+/usr/bin/ranlib libscanProgress.a
+/usr/bin/g++ -o libsscan.so -shared -fPIC -Wl,-hlibsscan.so -L/epics/bases/base-3.15.5/epics-modules/sscan/lib/linux-x86_64 -L/epics/bases/base-3.15.5/lib/linux-x86_64 -Wl,-rpath,/epics/bases/base-3.15.5/epics-modules/sscan/lib/linux-x86_64 -Wl,-rpath,/epics/bases/base-3.15.5/lib/linux-x86_64           -rdynamic -m64            sscanRecord.o scanparmRecord.o recDynLink.o req_file.o xdr_lib.o saveData.o    -ldbRecStd -ldbCore -lca -lCom   -lpthread   -lreadline -lm -lrt -ldl -lgcc
+Installing shared library /epics/bases/base-3.15.5/epics-modules/sscan/lib/linux-x86_64/libsscan.so
+Installing library /epics/bases/base-3.15.5/epics-modules/sscan/lib/linux-x86_64/libsscan.a
+/usr/bin/g++ -o libscanProgress.so -shared -fPIC -Wl,-hlibscanProgress.so -L/epics/bases/base-3.15.5/epics-modules/seq/lib/linux-x86_64 -L/epics/bases/base-3.15.5/epics-modules/sscan/lib/linux-x86_64 -L/epics/bases/base-3.15.5/lib/linux-x86_64 -Wl,-rpath,/epics/bases/base-3.15.5/epics-modules/seq/lib/linux-x86_64 -Wl,-rpath,/epics/bases/base-3.15.5/epics-modules/sscan/lib/linux-x86_64 -Wl,-rpath,/epics/bases/base-3.15.5/lib/linux-x86_64           -rdynamic -m64            scanProg.o    -lseq -lpv -ldbRecStd -ldbCore -lca -lCom   -lpthread   -lreadline -lm -lrt -ldl -lgcc
+Installing shared library /epics/bases/base-3.15.5/epics-modules/sscan/lib/linux-x86_64/libscanProgress.so
+Installing library /epics/bases/base-3.15.5/epics-modules/sscan/lib/linux-x86_64/libscanProgress.a
+make[4]: Leaving directory '/home/jhlee/e3/tools/e3-sscan/sscan/sscanApp/src/O.linux-x86_64'
+make[3]: Leaving directory '/home/jhlee/e3/tools/e3-sscan/sscan/sscanApp/src'
+make -C ./Db install 
+make[3]: Entering directory '/home/jhlee/e3/tools/e3-sscan/sscan/sscanApp/Db'
+perl -CSD /epics/bases/base-3.15.5/bin/linux-x86_64/makeMakefile.pl O.linux-x86_64 ../../..
+mkdir O.Common
+make -C O.linux-x86_64 -f ../Makefile TOP=../../.. \
+    T_A=linux-x86_64 install
+make[4]: Entering directory '/home/jhlee/e3/tools/e3-sscan/sscan/sscanApp/Db/O.linux-x86_64'
+make[4]: Nothing to be done for 'install'.
+make[4]: Leaving directory '/home/jhlee/e3/tools/e3-sscan/sscan/sscanApp/Db/O.linux-x86_64'
+make[3]: Leaving directory '/home/jhlee/e3/tools/e3-sscan/sscan/sscanApp/Db'
+make[2]: Leaving directory '/home/jhlee/e3/tools/e3-sscan/sscan/sscanApp'
+make[1]: Leaving directory '/home/jhlee/e3/tools/e3-sscan/sscan'

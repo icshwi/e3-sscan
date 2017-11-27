@@ -1,63 +1,55 @@
 
-
-#where_am_I := $(dir $(abspath $(lastword $(MAKEFILE_LIST))))
+where_am_I := $(dir $(abspath $(lastword $(MAKEFILE_LIST))))
 
 include $(REQUIRE_TOOLS)/driver.makefile
 
-#APP:=modbusApp
-#APPDB:=$(APP)/Db
-#APPSRC:=$(APP)/src
+APP:=sscanApp
+APPDB:=$(APP)/Db
+APPSRC:=$(APP)/src
 
-#USR_INCLUDES += -I$(where_am_I)/$(APPSRC)
+USR_INCLUDES += -I$(where_am_I)/$(APPSRC)
 
 #TEMPLATES += $(wildcard $(APPDB)/*.template)
 
 
-#SOURCES   += $(APPSRC)/modbusInterpose.c
-#SOURCES   += $(APPSRC)/drvModbusAsyn.c
-#DBDS      += $(APPSRC)/modbusSupport.dbd
-#HEADERS   += $(APPSRC)/drvModbusAsyn.h
+USR_CFLAGS   += -Wno-unused-variable
+USR_CFLAGS   += -Wno-unused-function
+USR_CFLAGS   += -Wno-unused-but-set-variable
+USR_CPPFLAGS += -Wno-unused-variable
+USR_CPPFLAGS += -Wno-unused-function
+USR_CPPFLAGS += -Wno-unused-but-set-variable
+
+HEADERS += $(APPSRC)/recDynLink.h
+HEADERS += scanparmRecord.h
+HEADERS += sscanRecord.h
+HEADERS += menuSscan.h
 
 
-# 
-#USR_CFLAGS   += -Wno-unused-variable
-#USR_CFLAGS   += -Wno-unused-function
-#USR_CPPFLAGS += -Wno-unused-variable
-#USR_CPPFLAGS += -Wno-unused-function
+SOURCES += $(APPSRC)/saveData.c
+SOURCES += $(APPSRC)/xdr_lib.c
+#SOURCES += $(APPSRC)/scanProg.st
+SOURCES += $(APPSRC)/req_file.c
+SOURCES += $(APPSRC)/recDynLink.c
+SOURCES += $(APPSRC)/sscanRecord.c
+SOURCES += $(APPSRC)/scanparmRecord.c
+#SOURCES   += $(APPSRC)/scanProg.st
 
-#
-#
-# The following lines must be updated according to your sscan
-#
-# Examples...
-# 
-# USR_CFLAGS += -fPIC
-# USR_CFLAGS   += -DDEBUG_PRINT
-# USR_CPPFLAGS += -DDEBUG_PRINT
-# USR_CPPFLAGS += -DUSE_TYPED_RSET
-# USR_INCLUDES += -I/usr/include/libusb-1.0
-# USR_LDFLAGS += -lusb-1.0
 
-# USR_LDFLAGS += -L /opt/etherlab/lib
-# USR_LDFLAGS += -lethercat
-# USR_LDFLAGS += -Wl,-rpath=/opt/etherlab/lib
-#
-#
-# PCIAPP:= pciApp
-#
-# HEADERS += $(PCIAPP)/devLibPCI.h
-# HEADERS += $(PCIAPP)/devLibPCIImpl.h
+DBDS += $(APPSRC)/sscanSupport.dbd
+DBDS += $(APPSRC)/sscanProgressSupport.dbd
+DBDS += $(APPSRC)/menuSscan.dbd
 
-# SOURCES += $(wildcard $(PCIAPP)/devLib*.c)
-# SOURCES += $(PCIAPP)/pcish.c
-# SOURCES_Linux += $(PCIAPP)/os/Linux/devLibPCIOSD.c
+vpath %.dbd   $(where_am_I)/$(APPSRC)
 
-# DBDS += $(PCIAPP)/epicspci.dbd
 
-# MRMSHARED:= mrmShared
-# MRMSHAREDSRC:=$(MRMSHARED)/src
-# MRMSHAREDDB:=$(MRMSHARED)/Db
-# TEMPLATES += $(wildcard $(MRMSHAREDDB)/*.db)
-# TEMPLATES += $(wildcard $(MRMSHAREDDB)/*.template)
-# TEMPLATES += $(wildcard $(MRMSHAREDDB)/*.substitutions)
+scanparmRecord$(DEP): sscanRecord.h scanparmRecord.h menuSscan.h
 
+USR_DBDFLAGS += -I . -I ..
+
+
+%.h: %.dbd
+	$(DBTORECORDTYPEH)  $(USR_DBDFLAGS) -o $@ $<
+
+
+menuSscan.h: menuSscan.dbd
+	$(DBTOMENUH) $(USR_DBDFLAGS) -o $@ $<
