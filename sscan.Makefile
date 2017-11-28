@@ -1,3 +1,23 @@
+#
+#  Copyright (c) 2017 - Present  European Spallation Source ERIC
+#
+#  The program is free software: you can redistribute
+#  it and/or modify it under the terms of the GNU General Public License
+#  as published by the Free Software Foundation, either version 2 of the
+#  License, or any newer version.
+#
+#  This program is distributed in the hope that it will be useful, but WITHOUT
+#  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+#  FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
+#  more details.
+#
+#  You should have received a copy of the GNU General Public License along with
+#  this program. If not, see https://www.gnu.org/licenses/gpl-2.0.txt
+#
+# Author  : Jeong Han Lee
+# email   : han.lee@esss.se
+# Date    : Tuesday, November 28 16:46:46 CET 2017
+# version : 0.0.1
 
 where_am_I := $(dir $(abspath $(lastword $(MAKEFILE_LIST))))
 
@@ -27,17 +47,17 @@ HEADERS += menuSscan.h
 
 SOURCES += $(APPSRC)/saveData.c
 SOURCES += $(APPSRC)/xdr_lib.c
-#SOURCES += $(APPSRC)/scanProg.st
+SOURCES += $(APPSRC)/scanProg.st
 SOURCES += $(APPSRC)/req_file.c
 SOURCES += $(APPSRC)/recDynLink.c
 SOURCES += $(APPSRC)/sscanRecord.c
 SOURCES += $(APPSRC)/scanparmRecord.c
-#SOURCES   += $(APPSRC)/scanProg.st
 
 
 DBDS += $(APPSRC)/sscanSupport.dbd
 DBDS += $(APPSRC)/sscanProgressSupport.dbd
-DBDS += $(APPSRC)/menuSscan.dbd
+# Warning: skipping duplicate file menuSscan.dbd from command line
+# DBDS += $(APPSRC)/menuSscan.dbd
 
 vpath %.dbd   $(where_am_I)/$(APPSRC)
 
@@ -46,10 +66,18 @@ scanparmRecord$(DEP): sscanRecord.h scanparmRecord.h menuSscan.h
 
 USR_DBDFLAGS += -I . -I ..
 
-
 %.h: %.dbd
 	$(DBTORECORDTYPEH)  $(USR_DBDFLAGS) -o $@ $<
 
 
 menuSscan.h: menuSscan.dbd
 	$(DBTOMENUH) $(USR_DBDFLAGS) -o $@ $<
+
+
+
+
+
+TEMPLATES += $(wildcard $(APPDB)/*.db)
+#TEMPLATES += $(wildcard $(APPDB)/*.template)
+#TEMPLATES += $(wildcard $(APPDB)/*.substitutions)
+
