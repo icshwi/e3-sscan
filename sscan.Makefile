@@ -27,10 +27,7 @@ APP:=sscanApp
 APPDB:=$(APP)/Db
 APPSRC:=$(APP)/src
 
-USR_INCLUDES += -I$(where_am_I)/$(APPSRC)
-
-#TEMPLATES += $(wildcard $(APPDB)/*.template)
-
+USR_INCLUDES += -I$(where_am_I)$(APPSRC)
 
 USR_CFLAGS   += -Wno-unused-variable
 USR_CFLAGS   += -Wno-unused-function
@@ -39,49 +36,50 @@ USR_CPPFLAGS += -Wno-unused-variable
 USR_CPPFLAGS += -Wno-unused-function
 USR_CPPFLAGS += -Wno-unused-but-set-variable
 
+# menuSscan doesn't have source file
+DBDINC_SRCS += $(APPSRC)/scanparmRecord.c
+DBDINC_SRCS += $(APPSRC)/sscanRecord.c
+
+DBDINC_DBDS = $(subst .c,.dbd,   $(DBDINC_SRCS:$(APPSRC)/%=%))
+DBDINC_HDRS = $(subst .c,.h,     $(DBDINC_SRCS:$(APPSRC)/%=%))
+DBDINC_DEPS = $(subst .c,$(DEP), $(DBDINC_SRCS:$(APPSRC)/%=%))
+
 HEADERS += $(APPSRC)/recDynLink.h
-HEADERS += scanparmRecord.h
-HEADERS += sscanRecord.h
+HEADERS += $(DBDINC_HDRS)
 HEADERS += menuSscan.h
 
-
-SOURCES += $(APPSRC)/saveData.c
-SOURCES += $(APPSRC)/xdr_lib.c
-SOURCES += $(APPSRC)/scanProg.st
-SOURCES += $(APPSRC)/req_file.c
 SOURCES += $(APPSRC)/recDynLink.c
-SOURCES += $(APPSRC)/sscanRecord.c
-SOURCES += $(APPSRC)/scanparmRecord.c
+SOURCES += $(APPSRC)/req_file.c
+
+# SNCSEQ is always ON
+SOURCES += $(APPSRC)/scanProg.st
+SOURCES += $(APPSRC)/saveData_writeXDR.c
+SOURCES += $(APPSRC)/writeXDR.c
+# DBDINC_SRCS should be last of the series of SOURCES
+SOURCES += $(DBDINC_SRCS)
 
 
-DBDS += $(APPSRC)/sscanSupport.dbd
 DBDS += $(APPSRC)/sscanProgressSupport.dbd
-# Warning: skipping duplicate file menuSscan.dbd from command line
-# DBDS += $(APPSRC)/menuSscan.dbd
-
-vpath %.dbd   $(where_am_I)/$(APPSRC)
-
-
-scanparmRecord$(DEP): sscanRecord.h scanparmRecord.h menuSscan.h
-
-USR_DBDFLAGS += -I . -I ..
-
-%.h: %.dbd
-	$(DBTORECORDTYPEH)  $(USR_DBDFLAGS) -o $@ $<
-
-
-menuSscan.h: menuSscan.dbd
-	$(DBTOMENUH) $(USR_DBDFLAGS) -o $@ $<
-
-
-
-
+DBDS += $(APPSRC)/sscanSupport.dbd
 
 TEMPLATES += $(wildcard $(APPDB)/*.db)
 #TEMPLATES += $(wildcard $(APPDB)/*.template)
 #TEMPLATES += $(wildcard $(APPDB)/*.substitutions)
 
+$(DBDINC_DEPS): $(DBDINC_HDRS) menuSscan.h
+
+.dbd.h: 
+	$(DBTORECORDTYPEH)  $(USR_DBDFLAGS) -o $@ $<
+
+
+
+vpath %.dbd $(where_am_I)$(APPSRC)
+
+menuSscan.h: menuSscan.dbd
+	$(DBTOMENUH) $(USR_DBDFLAGS) -o $@ $<
 
 # db rule is the default in RULES_E3, so add the empty one
 
 db:
+
+.PHONY: db
