@@ -1,20 +1,19 @@
-#
 EPICS_MODULE_NAME:=sscan
-EPICS_MODULE_TAG:=1339922 
+#
+EPICS_MODULE_TAG:=1339922
 #
 E3_MODULE_VERSION:=1339922
-
-#E3_SEQUENCER_NAME:=seq
-#E3_SEQUENCER_VERSION:=3.1.21
 #
-# In most case, we don't need to touch the following variables.
+SEQUENCER_DEP_VERSION:=2.2.6
+#
 #
 E3_MODULE_NAME:=$(EPICS_MODULE_NAME)
+#
 E3_MODULE_SRC_PATH:=$(EPICS_MODULE_NAME)
+#
 E3_MODULE_MAKEFILE:=$(EPICS_MODULE_NAME).Makefile
-
-
-
-
-# The definitions shown below can also be placed in an untracked CONFIG_MODULE.local
+#
+-include $(TOP)/configure/CONFIG_OPTIONS
+# The definitions shown below can also be placed in an untracked CONFIG_MODULE*.local
 -include $(TOP)/configure/CONFIG_MODULE.local
+#
