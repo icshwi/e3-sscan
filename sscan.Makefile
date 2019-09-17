@@ -1,5 +1,5 @@
 #
-#  Copyright (c) 2017 - Present  European Spallation Source ERIC
+#  Copyright (c) 2017 - 2019  European Spallation Source ERIC
 #
 #  The program is free software: you can redistribute
 #  it and/or modify it under the terms of the GNU General Public License
@@ -16,15 +16,11 @@
 #
 # Author  : Jeong Han Lee
 # email   : han.lee@esss.se
-# Date    : Tuesday, September 18 11:56:26 CEST 2018
-# version : 0.0.3
+# Date    : Tuesday, September 17 20:26:50 CEST 2019
+# version : 0.0.4
 
-# LEGACY_RSET should be defined before driver.makefile
-# require-ess from 3.0.1
-LEGACY_RSET = YES
 
 where_am_I := $(dir $(abspath $(lastword $(MAKEFILE_LIST))))
-
 include $(E3_REQUIRE_TOOLS)/driver.makefile
 include $(E3_REQUIRE_CONFIG)/DECOUPLE_FLAGS
 
@@ -49,6 +45,7 @@ USR_CPPFLAGS += -Wno-unused-variable
 USR_CPPFLAGS += -Wno-unused-function
 USR_CPPFLAGS += -Wno-unused-but-set-variable
 
+USR_CPPFLAGS += -DUSE_TYPED_RSET
 # menuSscan doesn't have source file
 DBDINC_SRCS += $(APPSRC)/scanparmRecord.c
 DBDINC_SRCS += $(APPSRC)/sscanRecord.c
