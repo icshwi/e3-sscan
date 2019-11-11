@@ -1,4 +1,4 @@
 [submodule "sscan"]
 	path = sscan
 	url = https://github.com/epics-modules/sscan
-	ignore = all
+	ignore = dirty

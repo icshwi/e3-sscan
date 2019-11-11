@@ -1,0 +1,9 @@
+digraph sscan {
+node [shape=record];
+base [label="base 7.0.3"]
+require [label="require 3.1.1"]
+SEQUENCER [label="SEQUENCER 2.2.7"]
+sscan [label="sscan 2.11.3"]
+base -> require -> { SEQUENCER } ->  {  sscan  } 
+} 
+
